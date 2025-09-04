@@ -26,4 +26,8 @@ export default function RootLayout() {
       <StatusBar style="auto" />
     </ThemeProvider>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 6b7af3d (first commit)
