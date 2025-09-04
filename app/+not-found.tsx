@@ -29,4 +29,8 @@ const styles = StyleSheet.create({
     marginTop: 15,
     paddingVertical: 15,
   },
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> 6b7af3d (first commit)
