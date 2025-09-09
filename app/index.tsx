@@ -1,21 +1,10 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Redirect } from "expo-router";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Hello World</Text>
-    </View>
-  );
+export default function Index() {
+  return <Redirect href="/(auth)/login" />;
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  text: {
-    fontSize: 24,
-    color: "blue",
-  },
-});
+
+//implementar navegacion <Link>
+//investigar router.navigate hay que hacer la navegacion de las tres pantallas
+//caso de uso, tabs?
