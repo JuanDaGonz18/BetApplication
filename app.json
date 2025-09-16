@@ -1,20 +1,11 @@
 {
   "expo": {
-<<<<<<< HEAD
-    "name": "mi-primer-proyecto",
-    "slug": "mi-primer-proyecto",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "miprimerproyecto",
-=======
     "name": "BetApplication",
     "slug": "BetApplication",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "betapplication",
->>>>>>> 6b7af3d (first commit)
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
@@ -42,15 +33,9 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-<<<<<<< HEAD
-      ]
-=======
       ],
       "expo-font"
->>>>>>> 6b7af3d (first commit)
     ],
-    "experiments": {
-      "typedRoutes": true
-    }
+    "experiments": {}
   }
 }
