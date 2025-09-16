@@ -5,19 +5,24 @@ export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: "#FFD700", // dorado
-        tabBarInactiveTintColor: "#ccc",
+        tabBarActiveTintColor: "#FFD700", // dorado brillante
+        tabBarInactiveTintColor: "#9ca3af", // gris elegante
         tabBarStyle: {
           backgroundColor: "#041c13",
           borderTopWidth: 0,
           height: 65,
+          paddingBottom: 8,
+        },
+        tabBarLabelStyle: {
+          fontSize: 12,
+          fontWeight: "600",
         },
         headerShown: false,
       }}
     >
-      {/* Tab de Inicio */}
+      {/* Inicio */}
       <Tabs.Screen
-        name="index"
+        name="main"
         options={{
           title: "Inicio",
           tabBarIcon: ({ color, size }) => (
@@ -25,19 +30,8 @@ export default function TabsLayout() {
           ),
         }}
       />
-
-      {/* Tab vacío para después (ejemplo Apuestas) */}
-      <Tabs.Screen
-        name="name"
-        options={{
-          title: "title",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="cash-outline" size={size} color={color} />
-          ),
-        }}
-      />
-
-      {/* Último: Perfil */}
+      
+      {/* Perfil */}
       <Tabs.Screen
         name="perfil"
         options={{

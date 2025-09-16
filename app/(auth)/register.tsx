@@ -1,15 +1,23 @@
+import { AuthContext } from "@/contexts/AuthContext"; // 👈 importa tu contexto
 import { CinzelDecorative_400Regular } from "@expo-google-fonts/cinzel-decorative";
-import { PlayfairDisplay_400Regular, PlayfairDisplay_700Bold } from "@expo-google-fonts/playfair-display";
-import { Poppins_400Regular, Poppins_600SemiBold, useFonts } from "@expo-google-fonts/poppins";
+import {
+  PlayfairDisplay_400Regular,
+  PlayfairDisplay_700Bold,
+} from "@expo-google-fonts/playfair-display";
+import {
+  Poppins_400Regular,
+  Poppins_600SemiBold,
+  useFonts,
+} from "@expo-google-fonts/poppins";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
-  View,
-  Text,
-  TouchableOpacity,
   StyleSheet,
+  Text,
   TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
 export default function RegisterScreen() {
@@ -22,28 +30,46 @@ export default function RegisterScreen() {
   });
 
   const router = useRouter();
+  const { register } = useContext(AuthContext); // 👈 usa la función register
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
+  const [name, setName] = useState(""); // 👈 nuevo estado para el nombre
 
   if (!fontsLoaded) return null;
 
-  const handleRegister = () => {
-    if (email && password && password === confirm) {
+  const handleRegister = async () => {
+    if (!email || !password || password !== confirm || !name) {
+      alert(
+        "Completa todos los campos y asegúrate que las contraseñas coincidan."
+      );
+      return;
+    }
+
+    try {
+      await register(email, password, name); // 👈 pasamos el nombre
+      alert("Cuenta creada con éxito 🎉");
       router.replace("/(auth)/login");
-    } else {
-      alert("Completa todos los campos y asegúrate que las contraseñas coincidan.");
+    } catch (error: any) {
+      alert(error.message);
     }
   };
 
   return (
     <LinearGradient colors={["#092e20", "#041c13"]} style={styles.background}>
       <View style={styles.container}>
-        {/* Título elegante */}
         <Text style={styles.title}>Crear cuenta</Text>
         <Text style={styles.subtitle}>Empieza tu camino ganador </Text>
 
-        {/* Input de correo */}
+        <TextInput
+          placeholder="Nombre de usuario"
+          placeholderTextColor="#c8d6c4"
+          style={styles.input}
+          value={name}
+          onChangeText={setName}
+        />
+
         <TextInput
           placeholder="Correo electrónico"
           placeholderTextColor="#c8d6c4"
@@ -52,7 +78,6 @@ export default function RegisterScreen() {
           onChangeText={setEmail}
         />
 
-        {/* Input de contraseña */}
         <TextInput
           placeholder="Contraseña"
           placeholderTextColor="#c8d6c4"
@@ -62,7 +87,6 @@ export default function RegisterScreen() {
           onChangeText={setPassword}
         />
 
-        {/* Confirmar contraseña */}
         <TextInput
           placeholder="Confirmar contraseña"
           placeholderTextColor="#c8d6c4"
@@ -72,12 +96,10 @@ export default function RegisterScreen() {
           onChangeText={setConfirm}
         />
 
-        {/* Botón de registro */}
         <TouchableOpacity style={styles.button} onPress={handleRegister}>
           <Text style={styles.buttonText}>Registrarse</Text>
         </TouchableOpacity>
 
-        {/* Link volver al login */}
         <Text style={styles.footerText}>
           ¿Ya tienes cuenta?{" "}
           <Text

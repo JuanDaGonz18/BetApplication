@@ -1,11 +1,25 @@
+import { AuthContext } from "@/contexts/AuthContext";
 import { CinzelDecorative_400Regular } from "@expo-google-fonts/cinzel-decorative";
-import { PlayfairDisplay_400Regular, PlayfairDisplay_700Bold } from "@expo-google-fonts/playfair-display";
-import { Poppins_400Regular, Poppins_600SemiBold, useFonts } from "@expo-google-fonts/poppins";
+import {
+  PlayfairDisplay_400Regular,
+  PlayfairDisplay_700Bold,
+} from "@expo-google-fonts/playfair-display";
+import {
+  Poppins_400Regular,
+  Poppins_600SemiBold,
+  useFonts,
+} from "@expo-google-fonts/poppins";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { useState } from "react";
 import { useRouter } from "expo-router";
+import { useContext, useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 export default function LoginScreen() {
   const [fontsLoaded] = useFonts({
@@ -20,16 +34,22 @@ export default function LoginScreen() {
   const [password, setPassword] = useState("");
   const router = useRouter();
 
+  const { login } = useContext(AuthContext);
   if (!fontsLoaded) return null;
 
-  const handleLogin = () => {
-    // Aquí iría tu lógica de autenticación real
-    if (email && password) {
-      router.replace("/main"); // Navega a la app principal
-    } else {
+  const hacerlogin = async () => {
+    if (!email || !password) {
       alert("Por favor ingresa tus credenciales.");
+      return;
     }
-  };
+
+    try {
+      await login(email, password);
+      router.replace("/main"); // Navega a la app principal
+    } catch (error: any) {
+      alert(error.message);
+    }
+  }
 
   return (
     <LinearGradient colors={["#092e20", "#041c13"]} style={styles.background}>
@@ -66,7 +86,7 @@ export default function LoginScreen() {
         />
 
         {/* Botón de inicio */}
-        <TouchableOpacity style={styles.button} onPress={handleLogin}>
+        <TouchableOpacity style={styles.button} onPress={hacerlogin}>
           <Text style={styles.buttonText}>Iniciar sesión</Text>
         </TouchableOpacity>
 
@@ -113,8 +133,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 44,
-    fontFamily: "PlayfairDisplay_700Bold", // Elegante serif clásica
-    color: "#FFD700", // Dorado brillante
+    fontFamily: "PlayfairDisplay_700Bold",
+    color: "#FFD700",
     marginBottom: 6,
     textShadowColor: "rgba(0,0,0,0.8)",
     textShadowOffset: { width: 2, height: 2 },
@@ -123,7 +143,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 18,
-    fontFamily: "CinzelDecorative_400Regular", // Toque fino y sofisticado
+    fontFamily: "CinzelDecorative_400Regular",
     color: "#e0e0e0",
     marginBottom: 35,
     letterSpacing: 0.5,
@@ -139,7 +159,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "Poppins_400Regular",
     borderWidth: 1,
-    borderColor: "rgba(255,215,0,0.5)", // Dorado suave
+    borderColor: "rgba(255,215,0,0.5)",
   },
   button: {
     width: "100%",

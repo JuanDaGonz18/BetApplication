@@ -1,19 +1,22 @@
-import { LinearGradient } from "expo-linear-gradient";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { AuthContext } from "@/contexts/AuthContext";
+import { CinzelDecorative_400Regular } from "@expo-google-fonts/cinzel-decorative";
 import {
-  PlayfairDisplay_700Bold,
   PlayfairDisplay_400Regular,
+  PlayfairDisplay_700Bold,
 } from "@expo-google-fonts/playfair-display";
 import {
   Poppins_400Regular,
   Poppins_600SemiBold,
   useFonts,
 } from "@expo-google-fonts/poppins";
-import { CinzelDecorative_400Regular } from "@expo-google-fonts/cinzel-decorative";
+import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
+import { useContext } from "react";
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function PerfilScreen() {
   const router = useRouter();
+  const { user, logout } = useContext(AuthContext);
 
   const [fontsLoaded] = useFonts({
     PlayfairDisplay_700Bold,
@@ -25,6 +28,15 @@ export default function PerfilScreen() {
 
   if (!fontsLoaded) return null;
 
+  const handleLogout = async () => {
+    try {
+      await logout();
+      router.replace("/(auth)/login");
+    } catch (error) {
+      Alert.alert("Error", "No se pudo cerrar sesión.");
+    }
+  };
+
   return (
     <LinearGradient colors={["#092e20", "#041c13"]} style={styles.background}>
       <View style={styles.container}>
@@ -35,20 +47,20 @@ export default function PerfilScreen() {
         {/* Card de info */}
         <View style={styles.card}>
           <Text style={styles.cardTitle}>📧 Correo:</Text>
-          <Text style={styles.cardText}>usuario@betapp.com</Text>
+          <Text style={styles.cardText}>{user?.email || "Sin correo"}</Text>
 
-          <Text style={styles.cardTitle}>💳 Suscripción:</Text>
-          <Text style={styles.cardText}>Premium Activa</Text>
+          <Text style={styles.cardTitle}>👤 Nombre:</Text>
+          <Text style={styles.cardText}>{user?.name || "Sin nombre"}</Text>
 
           <Text style={styles.cardTitle}>⚙️ Ajustes rápidos:</Text>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={() => Alert.alert("Editar perfil", "Aquí puedes implementar la edición")}>
             <Text style={styles.buttonText}>Editar Perfil</Text>
           </TouchableOpacity>
 
           {/* Botón de Cerrar Sesión */}
           <TouchableOpacity
             style={[styles.button, styles.logout]}
-            onPress={() => router.replace("/(auth)/login")}
+            onPress={handleLogout}
           >
             <Text style={styles.buttonText}>Cerrar Sesión</Text>
           </TouchableOpacity>
@@ -59,9 +71,7 @@ export default function PerfilScreen() {
 }
 
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-  },
+  background: { flex: 1 },
   container: {
     flex: 1,
     justifyContent: "center",
